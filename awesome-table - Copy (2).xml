@@ -1,0 +1,233 @@
+<html>
+<head>
+	<title>Awesome Table</title>
+	<script type="text/javascript" src="//www.google.com/jsapi?autoload={'modules':[{'name':'visualization', 'version':'1','packages':['controls']}]}"></script>
+	
+	<link id="awesomeTableCSS" rel="stylesheet" type="text/css" href="https://svn.riouxsvn.com/gmcgsite/awesome_table_standard.css"/>
+	
+	<style>
+		#tableChart0>div{
+			width:100%;
+		}
+		.count {
+			padding-bottom:2px;
+			font-size:80%;
+			overflow:hidden;
+		}
+		a[href=""] {
+			display:none;
+		}
+		.loader {
+			width:10%;
+			height:2px;
+			box-shadow: 1px 1px 2px 0px rgba(3, 3, 3, 0.3);
+		}
+		.google-visualization-table-table .gradient,.google-visualization-table-div-page .gradient {
+			padding:15px 8px;
+		}
+		.google-visualization-table-div-page{
+			background-color: transparent!important;
+		}
+		.google-visualization-controls-label {
+			line-height:27px;
+			font-size:14px;
+			font-weight:700;
+		}
+		.google-visualization-controls-stringfilter INPUT {
+			line-height:31px;
+			padding-left:4px;
+			font-size:14px;
+			margin-top: 2px;
+		}
+		.google-visualization-controls-stringfilter INPUT:hover {
+			box-shadow:inset 0 1px 2px rgba(0,0,0,0.1);
+		}
+		.google-visualization-controls-stringfilter INPUT:focus {
+			box-shadow:inset 0 1px 2px rgba(0,0,0,0.3);
+			outline:none;
+		}
+		.google-visualization-controls-categoryfilter .charts-menu-button,
+		.google-visualization-controls-categoryfilter .charts-menu-button.charts-menu-button-hover,
+		.google-visualization-controls-categoryfilter .charts-menu-button.charts-menu-button-active {
+			margin-top: 2px;
+			line-height:27px;
+			font-size:14px;
+		}
+		.google-visualization-controls-categoryfilter .charts-menu-button-dropdown{
+			width: 12px!important;
+			background:none!important;
+		}
+		.google-visualization-controls-categoryfilter-selected {
+			font-size:10pt;
+		}
+		.google-visualization-controls-rangefilter {
+			font-size:14px;
+		}
+		.google-visualization-controls-rangefilter-thumblabel {
+			font-size:14px;
+		}
+
+		/* view card */
+		.viewCards .google-visualization-table-tr-head {
+			display:none;
+		}
+		.viewCards .google-visualization-table-table {
+			border-spacing:10px!important;
+			width:100%!important;
+		}
+		.viewCards .google-visualization-table-td {
+			cursor:pointer;
+			border-style: solid!important;
+			border-width: 1px!important;
+			border-bottom-width: 2px!important;
+		}
+		
+		/* Patch for the 19/02/15 visualization API modification */
+		.top-level {
+			height: inherit!important;
+		}
+		.google-visualization-table.content {
+			width: inherit!important;
+		}
+		.google-visualization-table-table {
+			width:100%!important;
+		}
+		.header {
+			width:100%!important;
+		}
+		/* ENd of patch for the 19/02/15 visualization API modification */
+		.controlers-filters {
+			display:inline-block;
+			vertical-align:top;
+			padding-bottom:10px;
+			padding-right:10px;
+		}
+		li.charts-inline-block {
+			display:block!important;
+		}
+		.charts-menu.charts-menu-vertical {
+			overflow-y:auto;
+			overflow-x:hidden;
+			max-height:300px;
+		}
+		.google-visualization-controls-categoryfilter .charts-menu-button-outer-box {
+			border:0;
+		}
+		.google-visualization-controls-categoryfilter .charts-menu-button-inner-box {
+			border:0;
+			padding:3px 8px;
+		}
+		ul.google-visualization-controls-categoryfilter-selected {
+			max-width:none!important;
+		}
+		.google-visualization-controls-categoryfilter .charts-menu-button-caption{
+			min-width: 138px;
+		}
+		.google-visualization-controls-stringfilter .google-visualization-controls-label {
+			padding-top:0!important;
+		}
+		.show {
+			transition-duration: 1s;
+			transition-timing-function: ease-in;
+			max-height: 1000px;
+			overflow: hidden;
+		}
+		.hide {
+			overflow: hidden;
+			max-height: 0;
+			transition-duration: 0.5s;
+			transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+		}
+		/* Buttons previous / next in paginated tables */
+		.charts-custom-button{
+			background:none!important;
+		}
+		.charts-custom-button-outer-box,
+		.charts-custom-button-inner-box {
+			border-style:none!important;
+		}
+		.charts-custom-button-inner-box img{
+			width:12px!important;
+			height:12px!important;
+		}
+		#topContainer {
+			margin-bottom: 20px;
+		}
+		#bottomContainer {
+			margin-top: 20px;
+		}
+		/** little tweaks to adapt the NumberRangeFilter and the DateFilter **/
+		.google-visualization-controls-rangefilter-thumblabel {
+			position: absolute;
+			font-size: 0.9em;
+			top: 1em;
+		}
+		.google-visualization-controls-rangefilter {
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		.google-visualization-controls-rangefilter span:nth-of-type(2) {
+			right: 0px;
+		}
+		.google-visualization-controls-slider-horizontal {
+			height: 8px!important;
+			width: 174px!important;
+		}
+		.google-visualization-controls-slider-horizontal .google-visualization-controls-slider-handle{
+			height: 8px!important;
+		}
+		.google-visualization-controls-rangefilter .google-visualization-controls-label{
+			line-height: 1.1em!important;
+		}
+		.google-visualization-controls-slider-thumb {
+			height: 14px!important;
+		}
+		/* Correction for when it's not using insideFilter mode*/
+		.NOinsideFilter .google-visualization-controls-rangefilter .google-visualization-controls-label {
+			padding-bottom: 0.8em;
+		}
+		.NOinsideFilter .google-visualization-controls-rangefilter .google-visualization-controls-label{
+			line-height: 27px!important;
+		}
+		.NOinsideFilter .google-visualization-controls-rangefilter {
+			text-align: left;
+			margin-bottom: 10px;
+		}
+	</style>
+	</head>
+	<body style="background-color: transparent;">
+		<div id="loader" class="loader"></div>
+		<div id="dashboard" style="display:none;" class="google-visualization-controls-theme-plus">
+			<div id="topContainer" style="display:none;"></div>
+			<div id="middleContainer" style="display:none;"></div>
+			<div id="bottomContainer" style="display:none;">
+				<div id="count" class="count">
+					<div style="float:left;padding-top:5px" class="numberOfResultsShown"> </div>
+					<div id="pagination" style="float: right;"> </div>
+				</div>
+				<br>
+				<div id="visualizations">
+					<div style="float: left; width:100%" id="parentChart1">
+						<div style="float: left; width:100%" id="chart1"> </div>
+					</div>
+					<div style="float: left;" id="sidebar"> </div>
+				</div>
+				<div style="clear:both">
+					<br>
+				</div>
+				<div class="count" style="clear:both">
+					<div style="float:left;padding-top:5px" class="numberOfResultsShown"> </div>
+					<div id="paginationBottom" style="float: right;"> </div>
+				</div>
+			</div>
+		</div>
+		<div style="clear:both;">
+			<a href="#" id="export" style="display:none;"><img src="https://lh5.googleusercontent.com/-SG6DTbfzfE8/UdwcjAUwK1I/AAAAAAAAFNA/v2M3DCNaUuU/s20-no/download_icon.png">
+			</a>
+		</div>
+		<div style="display:none;" id="hidden_chart"></div>
+		
+		<script src="https://svn.riouxsvn.com/gmcgsite/Code.js"></script>
+		
+	</body>
+</html>
